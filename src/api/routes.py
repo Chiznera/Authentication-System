@@ -9,6 +9,11 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 
 api = Blueprint('api', __name__)
 
+# app = Flask(__name__)
+
+# app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+# jwt = JWTManager(app)
+
 
 # @api.route('/hello', methods=['POST', 'GET'])
 # def handle_hello():
@@ -21,7 +26,7 @@ api = Blueprint('api', __name__)
 
 
     
-@api.route('/signup', methods=['POST'])
+@api.route('/signup/', methods=['POST'])
 def handle_signup():
     email = request.json.get('email')
     password = request.json.get('password')
@@ -53,7 +58,7 @@ def handle_signup():
     return jsonify(payload), 200
 
 
-@api.route('/login', methods=['POST'])
+@api.route('/login/', methods=['POST'])
 def handle_login():
     email = request.json.get('email')
     password = request.json.get('password')
@@ -69,12 +74,13 @@ def handle_login():
         return jsonify(
             {'msg': 'Incorrect password.'}
         ), 401
+
+    access_token = create_access_token(identity=email)
    
 
-
     payload = {
-        'msg': 'User creation successful.', 'user': user.serialize()
+        'msg': 'User login successful.', 'user': user.serialize(),
+        'access_token': access_token
     }
 
     return jsonify(payload), 200
-

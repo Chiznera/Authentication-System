@@ -79,7 +79,6 @@ def handle_login():
    
 
     payload = {
-        'msg': 'User login successful.', 'user': user.serialize(),
         'access_token': access_token
     }
 

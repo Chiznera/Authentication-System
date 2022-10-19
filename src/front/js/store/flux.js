@@ -1,6 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
-  let backendUrl =
-    "https://3001-chiznera-authentication-oei0x7z8zk4.ws-us67.gitpod.io";
+  let backendUrl = process.env.BACKEND_URL;
 
   return {
     store: {
@@ -18,9 +17,15 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((response) => response.text())
           .then((result) => {
             console.log(result);
+            sessionStorage.setItem("access_token", result);
             setStore({ logStatus: true });
           })
           .catch((error) => console.log("error", error));
+      },
+
+      logout: () => {
+        setStore({ logStatus: false });
+        return true;
       },
     },
   };
